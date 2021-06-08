@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.codewhy.dao.Sys_UserDao">
+	<insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.codewhy.pojo.Sys_User">
+		insert into sys_user (username,password,mobile,status,gmt_create,gmt_modified,remark,flag) values
+		(#{username},#{password},#{mobile},0,now(),now(),#{remark},1)
+	</insert>
+	<!--绑定用户与角色的关系-->
+	<insert id="addUserIDAndRoleID">
+		insert into sys_user_role (user_id,role_id) values (#{userID},#{roleID})
+	</insert>
+	<!-- 修改教师信息-->
+	<update id="updateTeacher">
+		update sys_user set username=#{username},mobile = #{mobile},status = #{status},remark = #{remark}
+		where id = #{id}
+	</update>
+	<!-- 删除教师 -->
+	<delete id="deleteTeacher">
+		delete from sys_user where id=#{id}
+	</delete>
+	<!--根据角色名字查找角色ID-->
+	<select id="findRoleIdByRoleName" resultType="java.lang.Integer">
+		select id from sys_role where role_name = #{name}
+	</select>
+	<!--根据电话号码查询用户-->
+	<select id="findUserByMobile" resultMap="user">
+		SELECT s.mobile,s.id,s.`status`,s.username,c.role_name FROM sys_user s join sys_user_role b on s.id=b.user_id join sys_role c on c.id = b.role_id where s.mobile = #{mobile}
+	</select>
+	<!-- 查询教师信息 -->
+	<select id="findTeachers" resultType="com.codewhy.pojo.Sys_User">
+		select id,username,mobile,status,remark from sys_user where flag=1
+	</select>
+
+	<resultMap type="com.codewhy.pojo.Sys_User" id="user">
+		<!-- 定义主键 ,非常重要。如果是多个字段,则定义多个id -->
+		<!-- property：主键在pojo中的属性名 -->
+		<!-- column：主键在数据库中的列名 -->
+		<id property="id" column="id" />
+		<!-- 定义普通属性 -->
+		<result property="username" column="username"/>
+		<result property="status" column="status" />
+		<result property="mobile" column="mobile" />
+		<collection property="sysRole"  ofType="com.codewhy.pojo.Sys_Role">
+			<result property="roleName" column="role_name" />
+		</collection>
+	</resultMap>
+</mapper>

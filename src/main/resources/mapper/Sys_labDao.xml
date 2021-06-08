@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.codewhy.dao.Sys_labDao">
+
+    <!--  添加实验室模板  -->
+    <insert id="addLab">
+        insert into sys_lob ( lab, serail, count, remark, gmt_create, gmt_modified) values
+                            (#{lab},#{serail},#{count},#{remark},now(),now())
+    </insert>
+    <select id="queryLabCountBySerail" resultType="java.lang.Integer">
+        select count(id) from sys_lob where serail = #{serail}
+    </select>
+
+    <!--  查询实验室  -->
+    <select id="queryLabs" resultType="com.codewhy.pojo.Sys_lab">
+        select * from sys_lob
+            <where>
+                <if test="lab != null and lab !=''">
+                    lab like concat('%',#{lab},'%')
+                </if>
+            </where>
+    </select>
+</mapper>
