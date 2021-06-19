@@ -14,16 +14,11 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 
-/**
- * @program: laboratory
- * @description: shiro认证与授权
- * @author: CodeWhy
- * @create: 2021-06-01 23:27
- **/
+//shiro认证与授权
 @Service
 public class ShiroRelam extends AuthorizingRealm {
     @Resource
-    private UserMapper userDao;
+    private UserMapper userMapper;
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         User primaryPrincipal = (User)principalCollection.getPrimaryPrincipal();
@@ -33,7 +28,6 @@ public class ShiroRelam extends AuthorizingRealm {
             authorizationInfo.addRole(role.getRoleName());
         }
         return authorizationInfo;
-
     }
 
     @Override
@@ -42,7 +36,7 @@ public class ShiroRelam extends AuthorizingRealm {
             return null;
         }
         String name = authenticationToken.getPrincipal().toString();
-        User user = userDao.findUserByMobile(name);
+        User user = userMapper.findUserByMobile(name);
 
         if(user.getStatus().equals(1)){
             throw new LockedAccountException();
@@ -50,8 +44,6 @@ public class ShiroRelam extends AuthorizingRealm {
         if(StringUtils.isEmpty(user)){
             throw  new ServiceException("没有此用户");
         }
-
-        //return new SimpleAuthenticationInfo(user,user.getPassword(),"");
         return new SimpleAuthenticationInfo(user, authenticationToken.getCredentials(), this.getName());
     }
 }

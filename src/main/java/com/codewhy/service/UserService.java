@@ -10,62 +10,40 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * @program: laboratory
- * @description: 用户业务逻辑类
- * @author: CodeWhy
- * @create: 2021-06-01 22:32
- **/
-
 @Service
 @Slf4j
+@Transactional
 public class UserService {
 
     @Resource
-    private UserMapper userDao;
+    private UserMapper userMapper;
 
-    /**
-     * 添加用户
-     * @param sysUser 用户对象
-     * @return
-     */
-
-    @Transactional
-//    @RequiresRoles("系统管理员")
+    //添加教师用户
     public Integer addUser(User sysUser) {
-        User user1 = userDao.findUserByMobile(sysUser.getMobile());
+        User user1 = userMapper.findUserByMobile(sysUser.getMobile());
         if(user1 != null ){
             throw new ServiceException("该账号已经存在");
         }
         log.info("开始插入用户数据");
-        int user = userDao.addUser(sysUser);
+        int user = userMapper.addUser(sysUser);
         log.info("用户主键ID："+sysUser.getId());
-        int RoleID = userDao.findRoleIdByRoleName(sysUser.getSysRole().getRoleName());
-        int i1 = userDao.addUserIDAndRoleID(sysUser.getId(), RoleID);
+        int RoleID = userMapper.findRoleIdByRoleName(sysUser.getSysRole().getRoleName());
+        int i1 = userMapper.addUserIDAndRoleID(sysUser.getId(), RoleID);
         return null;
     }
 
-
-    public List<User> queryTeachers() {
-        //查询所有老师信息
-        return userDao.findTeachers();
-    }
-
-    /**
-     * 修改教师信息
-     * @param id 唯一标识
-     * @param username 用户姓名
-     * @param mobile 账号
-     * @param status 状态
-     * @param remark 教师信息
-     */
-
-    public Integer updateTeacher(Integer id, String username, String mobile, Integer status, String remark) {
-        return userDao.updateTeacher(id, username, mobile, status, remark);
-    }
-
-
+    //删除教师
     public int deleteTeacher(Integer id) {
-        return userDao.deleteTeacher(id);
+        return userMapper.deleteTeacher(id);
+    }
+
+    //修改教师信息
+    public Integer updateTeacher(Integer id, String username, String mobile, Integer status, String remark) {
+        return userMapper.updateTeacher(id, username, mobile, status, remark);
+    }
+
+    //查询所有老师信息
+    public List<User> queryTeachers() {
+        return userMapper.findTeachers();
     }
 }

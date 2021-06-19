@@ -18,13 +18,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @program: laboratory
- * @description: 用户类控制器
- * @author: CodeWhy
- * @create: 2021-06-01 22:21
- **/
-
 @RestController
 @Slf4j
 @CrossOrigin
@@ -32,11 +25,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    /**
-     * 添加教师
-     * @param sysUser 教师用户对象
-     * @return
-     */
     @RequiresRoles("系统管理员")
     @PostMapping("/addUser")
     @ApiOperation("添加教师用户")
@@ -64,11 +52,15 @@ public class UserController {
         return new ResultVO().success("修改成功",integer);
     }
 
-    /**
-     * 登录系统
-     * @param
-     * @return
-     */
+    @RequiresRoles("系统管理员")
+    @PostMapping("/deleteTeacher")
+    @ApiOperation("删除教师")
+    public ResponseEntity<ResultVO> doDeleteTeacher(@RequestBody JSONObject jsonObject){
+        int id = Integer.parseInt((String) jsonObject.get("id"));
+        int i = userService.deleteTeacher(id);
+        return new ResultVO().success("删除成功",i);
+    }
+
     @ApiOperation("登录系统")
     @PostMapping("/login")
     public ResponseEntity doLogin(@RequestBody Map map){
@@ -78,7 +70,6 @@ public class UserController {
                 (String) map.get("mobile"),
                 (String) map.get("password")
         );
-
         subject.login(usernamePasswordToken);
         //或去当前shiro session管理器中的seesion id
         Serializable id = SecurityUtils.getSubject().getSession().getId();
@@ -89,12 +80,4 @@ public class UserController {
         return new ResultVO().success("登录成功",user);
     }
 
-    @RequiresRoles("系统管理员")
-    @PostMapping("/deleteTeacher")
-    @ApiOperation("删除教师")
-    public ResponseEntity<ResultVO> doDeleteTeacher(@RequestBody JSONObject jsonObject){
-        int id = Integer.parseInt((String) jsonObject.get("id"));
-        int i = userService.deleteTeacher(id);
-        return new ResultVO().success("删除成功",i);
-    }
 }

@@ -17,23 +17,12 @@ public class LessonService {
         return lessonMapper.addLes(sysLesson);
     }
 
-    /**
-     * 查询可以预约的实验室
-     * @param lessonWeek 第几周
-     * @param lessonName 课程名字
-     * @param lessonOder 第几节课
-     */
-
+    //查询可以预约的实验室
     public List<Lab> queryLab(Integer lessonWeek, String lessonName, String lessonOder, Integer count) {
-//        int i = sys_lesDao.queryLabs(lessonWeek, lessonName, lessonOder);
-//        if(i == 0 ){
             return lessonMapper.queryLab(lessonName, count);
-//        }else {
-//            throw new ServiceException("当前课程实验室已被预约");
-//        }
     }
 
-
+    //基于课程名查询课程
     public List<Lesson> queryLesS(String name) {
         return  lessonMapper.queryLessons(name);
     }

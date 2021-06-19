@@ -8,11 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface LabMapper {
-    /**
-     * 添加实验室模板
-     * @param lab
-     * @return
-     */
+    //添加实验室
     int addLab(Lab lab);
 
     int queryLabCountBySerail(@Param("serail") String serail);

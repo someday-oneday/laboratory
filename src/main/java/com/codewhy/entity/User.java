@@ -5,23 +5,18 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * @program: laboratory
- * @description: 用户类
- * @author: CodeWhy
- * @create: 2021-06-01 22:18
- **/
+//用户
 @Data
 public class User {
-    private Integer id;
-    private String username;
-    private String password;
-    private String mobile;
-    private Integer status;
-    private Date gmtCreate;
-    private Date gmtModified;
-    private Role sysRole;
-    private Serializable token;
-    private String remark;
-    private Integer flag; //0 true 1 false
+    private Integer id;           //用户id
+    private String username;      //用户名
+    private String password;      //密码
+    private String mobile;        //手机号
+    private Integer status;       //状态   1-启用 0-禁用
+    private Date gmtCreate;       //创建时间
+    private Date gmtModified;     //修改时间
+    private Role sysRole;         //角色名称
+    private Serializable token;   //token
+    private String remark;        //职称
+    private Integer flag;         //是否为教师   1-是 0-否
 }

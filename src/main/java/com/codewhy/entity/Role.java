@@ -2,14 +2,10 @@ package com.codewhy.entity;
 
 import lombok.Data;
 
-/**
- * @program: laboratory
- * @description: 角色类
- * @author: CodeWhy
- * @create: 2021-06-01 22:38
- **/
 
+
+//角色
 @Data
 public class Role {
-    private String roleName;
+    private String roleName;  //角色名称
 }

@@ -19,12 +19,7 @@ public class ResultVO {
         this.msg=s;
     }
 
-    /**
-     * 请求成功
-     * @param msg
-     * @param data
-     * @return
-     */
+    //请求成功
     public ResponseEntity<ResultVO> success(String msg, Object data){
         ResultVO result = new ResultVO();
         result.setCode(200);
@@ -32,7 +27,7 @@ public class ResultVO {
         result.setData(data);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
+   //请求失败
     public ResponseEntity<ResultVO> fail(String msg){
         ResultVO result = new ResultVO();
         result.setCode(500);

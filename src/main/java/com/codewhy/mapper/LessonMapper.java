@@ -9,10 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface LessonMapper {
-    /**
-     * 添加课程
-     * @param sysLesson
-     */
+    //添加课程
     int addLes(Lesson sysLesson);
 
     /**
@@ -22,35 +19,20 @@ public interface LessonMapper {
      * @param lessonOder
      * @return
      */
-    int queryLabs(@Param("lessonWeek") Integer lessonWeek,@Param("lessonName") String lessonName,@Param("lessonOder")String lessonOder );
+    //int queryLabs(@Param("lessonWeek") Integer lessonWeek,@Param("lessonName") String lessonName,@Param("lessonOder")String lessonOder );
 
-    /**
-     * 查询可预约的实验室
-     * @param lessonName 课程名字
-     */
+    //查询可预约的实验室
     List<Lab> queryLab(@Param("lessonName")String lessonName, @Param("count")Integer count);
 
     int addSubscribe(@Param("labID")Integer labID,@Param("lesID")Integer lesID);
 
-    /**
-     * 修改实验室预约状态
-     * @param labID
-     * @return
-     */
+    //修改实验室预约状态
     int updateLabStatus(@Param("labID")Integer labID);
 
-    /**
-     * 修改当前课程预约状态
-     * @param labID
-     * @return
-     */
+    //修改当前课程预约状态
     int updateLesStatus(@Param("lesID")Integer lesID);
 
-    /**
-     * 查询所有课程
-     * @param name
-     * @return
-     */
+    //基于课程名查询课程
     List<Lesson> queryLessons(@Param("name")String name);
 
 }

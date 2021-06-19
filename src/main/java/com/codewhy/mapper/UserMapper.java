@@ -8,56 +8,26 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper {
-    /**
-     * 添加用户
-     * @param sysUser 用户对象
-     * @return
-     */
+
+    //添加用户
     int addUser( User sysUser);
 
-    /**
-     * 根据角色名字查找角色ID
-     * @param name 角色名字
-     * @return
-     */
+    //根据角色名字查找角色ID
     int findRoleIdByRoleName(@Param("name") String name);
 
-    /**
-     * 绑定用户与角色的关系
-     * @param userID
-     * @param roleID
-     * @return
-     */
+    //绑定用户与角色的关系
     int addUserIDAndRoleID(@Param("userID")Integer userID,@Param("roleID")Integer roleID);
 
-    /**
-     * 根据电话号码查询用户
-     * @param mobile
-     * @return
-     */
+    //根据电话号码查询用户
     User findUserByMobile(@Param("mobile") String mobile);
 
-    /**
-     * 查询教师信息
-     * @return
-     */
+    //查询所有教师信息
     List<User> findTeachers();
 
-    /**
-     * 修改教师信息
-     * @param id 修改标识
-     * @param username 用户名
-     * @param mobile 账号
-     * @param status 状态
-     * @param remark 教师信息
-     */
+    //修改教师信息
     int updateTeacher(@Param("id")Integer id,@Param("username") String username,@Param("mobile")String mobile,
                       @Param("status")Integer status,@Param("remark")String remark);
 
-    /**
-     * 删除教师
-     * @param id 唯一标识
-     * @return
-     */
+    //修改教师信息
     int deleteTeacher(@Param("id")Integer id);
 }
