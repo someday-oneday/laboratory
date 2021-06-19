@@ -16,19 +16,21 @@ public class MySessionManager extends DefaultWebSessionManager {
     public MySessionManager() {
         super();
     }
+    //获取sessionId从请求中
     @Override
     protected Serializable getSessionId(ServletRequest request, ServletResponse response) {
-        String id = WebUtils.toHttp(request).getHeader(AUTHORIZATION);
-        //如果请求头中有 Authorization 则其值为sessionId
-        if (!StringUtils.isEmpty(id)) {
+        //从请求头中获取token
+        String token = WebUtils.toHttp(request).getHeader(AUTHORIZATION);
+        // 判断是否有值
+        if (!StringUtils.isEmpty(token)) {
+            // 设置当前session状态
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE, REFERENCED_SESSION_ID_SOURCE);
-            request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID, id);
+            request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID, token);
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_IS_VALID, Boolean.TRUE);
-            return id;
+            return token;
         } else {
-            //否则按默认规则从cookie取sessionId
+            // 若header获取不到token则尝试从cookie中获取
           return super.getSessionId(request, response);
-//            return null;
         }
     }
 }

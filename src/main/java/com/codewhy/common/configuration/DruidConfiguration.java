@@ -30,7 +30,6 @@ public class DruidConfiguration {
         initParams.put("loginUsername","root");
         initParams.put("loginPassword","123456");
         initParams.put("allow","");//默认就是允许所有访问
-//        initParams.put("deny","192.168.15.21");//黑名单
         bean.setInitParameters(initParams);
         return bean;
     }

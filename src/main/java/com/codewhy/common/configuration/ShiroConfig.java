@@ -41,12 +41,7 @@ public class ShiroConfig {
         return securityManager;
     }
 
-    /*
-     * cookie管理对象
-     * @author Innocence
-     * @date 2019/9/27 002716:24
-     * @return org.apache.shiro.web.mgt.CookieRememberMeManager
-     */
+    //cookie管理对象
     @Bean("sessionManager")
     public SessionManager sessionManager(){
         //将我们继承后重写的shiro session 注册
@@ -62,25 +57,27 @@ public class ShiroConfig {
         return shiroSession;
     }
 
-    //Filter工厂，设置对应的过滤条件和跳转条件
+    //ShiroFilterFactoryBean 处理拦截资源文件问题,设置对应的过滤条件和跳转条件
+    //注意：初始化ShiroFilterFactoryBean的时候需要注入：SecurityManager
+    //Web应用中,Shiro可控制的Web请求必须经过Shiro主过滤器的拦截
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
+        //定义返回对象
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+        //必须设置 SecurityManager,Shiro的核心安全接口
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
         filters.put("user",new MyFilter());
         shiroFilterFactoryBean.setFilters(filters);
         Map<String, String> map = new HashMap<>();
-        //登入放行
+        //配置不登录可以访问的资源，anon 表示资源都可以匿名访问
         map.put("/login", "anon");
-//        map.put("/add_user", "anon");
         map.put("/swagger-ui.html", "anon");
         map.put("/swagger-resources", "anon");
         map.put("/swagger-resources/configuration/security", "anon");
         map.put("/swagger-resources/configuration/ui", "anon");
         map.put("/v2/api-docs", "anon");
         map.put("/webjars/springfox-swagger-ui/**", "anon");
-
         //对所有用户认证
         map.put("/**", "user");
         //登录
